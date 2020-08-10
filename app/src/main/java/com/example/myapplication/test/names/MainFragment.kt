@@ -11,11 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.test.App
-import com.example.myapplication.test.model.NameList
 import com.example.myapplication.test.viewModel.MainViewModel
 import com.example.myapplication.test.viewModel.MainViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main.view.*
-import java.lang.String
 import javax.inject.Inject
 
 
@@ -40,42 +38,12 @@ class MainFragment : Fragment() {
         viewModel.response.observe(this, Observer { response ->
             response.message?.let {
 
-                val alphabetList = addAlphabets(it)
+                val alphabetList = viewModel.addAlphabets(it)
                 adapter.update(this.requireContext(), alphabetList)
             }
         })
 
     }
-
-    private fun addAlphabets(list: List<kotlin.String>): ArrayList<NameList>? {
-        var i = 0
-        val editedNameList: ArrayList<NameList> = ArrayList<NameList>()
-        val nameList = NameList()
-        nameList.name = String.valueOf(list[0][0])
-        nameList.type = 1
-        editedNameList.add(nameList)
-        i = 0
-        while (i < list.size - 1) {
-            val name = NameList()
-            val name1: Char = list[i][0]
-            val name2: Char = list[i + 1][0]
-
-            if (name1 == name2) {
-                name.type = (2)
-                name.name = list[i]
-                editedNameList.add(name)
-            } else {
-                editedNameList.add(NameList(name = list[i], type = 2))
-
-                name.name = (name2.toString())
-                name.type = (1)
-                editedNameList.add(name)
-            }
-            i++
-        }
-        return editedNameList
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
